@@ -2,7 +2,7 @@
 
 App::App(HINSTANCE hInstance, int nCmdShow)
 	: windowHandle_(nullptr),
-	className_("myWindowClass"), 
+	className_("myWindowClass"),
 	instanceHandle_(hInstance),
 	initialWindowState_(nCmdShow)
 {
@@ -50,16 +50,10 @@ int App::initWindow() {
 	wcex.hIconSm = LoadIcon(nullptr, IDI_APPLICATION);
 
 	// Registering the window
-	try {
-		if (!RegisterClassEx(&wcex))
-			throw "Window Registration Failed!";
+	if (!RegisterClassEx(&wcex)) {
+		DWORD ec = GetLastError();
+		throw std::runtime_error("RegisterClassEx failed (code " + std::to_string(ec) + ")");
 	}
-	catch (const char* expression)
-	{
-		MessageBox(nullptr, expression, "Error!", MB_ICONEXCLAMATION | MB_OK);
-		return 1;
-	}
-
 
 	// Creating the window
 	windowHandle_ = CreateWindow(
@@ -76,15 +70,11 @@ int App::initWindow() {
 		nullptr
 	);
 
-	try
-	{
-		if (!windowHandle_)
-			throw "Window Creation Failed!";
-	}
-	catch(const char* expression)
-	{
-		MessageBox(nullptr, expression, "Error!", MB_ICONEXCLAMATION | MB_OK);
-		return 1;
+
+	if (!windowHandle_){
+		DWORD ec = GetLastError();
+		throw std::system_error(static_cast<int>(ec), std::system_category());
+		//throw std::runtime_error("CreateWindow failed(code" + std::to_string(ec) + ")");
 	}
 
 	ShowWindow(windowHandle_, this->initialWindowState_);
