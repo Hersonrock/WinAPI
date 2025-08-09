@@ -52,7 +52,7 @@ int App::initWindow() {
 	// Registering the window
 	if (!RegisterClassEx(&wcex)) {
 		DWORD ec = GetLastError();
-		throw std::runtime_error("RegisterClassEx failed (code " + std::to_string(ec) + ")");
+		throw std::system_error(static_cast<int>(ec), std::system_category());
 	}
 
 	// Creating the window
@@ -74,7 +74,7 @@ int App::initWindow() {
 	if (!windowHandle_){
 		DWORD ec = GetLastError();
 		throw std::system_error(static_cast<int>(ec), std::system_category());
-		//throw std::runtime_error("CreateWindow failed(code" + std::to_string(ec) + ")");
+
 	}
 
 	ShowWindow(windowHandle_, this->initialWindowState_);
