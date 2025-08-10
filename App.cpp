@@ -24,13 +24,23 @@ int App::run() {
 
 int App::messageLoop() {
 	MSG msg{};
-	while (GetMessage(&msg, nullptr, 0, 0) > 0)
+	int result;
+	while ((result = GetMessage(&msg, nullptr, 0, 0)) > 0)
 	{
 		TranslateMessage(&msg);
 		DispatchMessage(&msg);
 	}
 
-	return (int)msg.wParam;
+	if (result == 0)
+	{
+		return static_cast<int>(msg.wParam);
+	}
+	else
+	{
+		DWORD ec = GetLastError();
+		throw std::system_error(static_cast<int>(ec), std::system_category());
+	}
+
 }
 
 int App::initWindow() {
@@ -71,7 +81,7 @@ int App::initWindow() {
 	);
 
 
-	if (!windowHandle_){
+	if (!windowHandle_) {
 		DWORD ec = GetLastError();
 		throw std::system_error(static_cast<int>(ec), std::system_category());
 
