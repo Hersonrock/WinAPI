@@ -12,3 +12,4 @@ The goal is to build native Windows desktop applications from scratch without fr
 - [Learn to Program for Windows](https://learn.microsoft.com/en-us/windows/win32/learnwin32/learn-to-program-for-windows)
 - [A tour of C++](https://www.stroustrup.com/tour3.html)
 - [LearnCPP](https://www.learncpp.com/)
+- [Programming Windows 5th Edition, WinAPI](https://www.charlespetzold.com/pw5/)
