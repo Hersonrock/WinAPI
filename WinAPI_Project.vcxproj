@@ -132,6 +132,15 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h" />
+    <ClInclude Include="resource.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="WinAPI_Project.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\..\..\Pictures\Resources_test\Icon1.ico" />
+    <Image Include="..\..\..\Pictures\Resources_test\Icon2.ico" />
+    <Image Include="..\..\..\Pictures\Resources_test\Icon3.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
