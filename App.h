@@ -4,6 +4,7 @@
 #include <stdexcept>
 #include <system_error>
 #include <format>
+#include "resource.h"
 
 class App {
 

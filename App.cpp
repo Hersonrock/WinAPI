@@ -52,10 +52,11 @@ int App::initWindow() {
 	wcex.cbClsExtra = 0;
 	wcex.cbWndExtra = 0;
 	wcex.hInstance = this->instanceHandle_;
-	wcex.hIcon = LoadIcon(nullptr, IDI_APPLICATION);
+	wcex.hIcon = LoadIcon(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_ICON1));
+	wcex.hIconSm = (HICON)LoadImage(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_ICON2), IMAGE_ICON, 16, 16, 0);
 	wcex.hCursor = LoadCursor(nullptr, IDC_ARROW);
 	wcex.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
-	wcex.lpszMenuName = nullptr;
+	wcex.lpszMenuName = MAKEINTRESOURCE(IDR_MYMENU);
 	wcex.lpszClassName = this->className_.c_str();
 	wcex.hIconSm = LoadIcon(nullptr, IDI_APPLICATION);
 
@@ -96,6 +97,51 @@ int App::initWindow() {
 LRESULT CALLBACK App::WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
 	switch (msg) {
 
+	case WM_CREATE:
+	{
+		HMENU hMenu, hSubMenu;
+		HICON hIcon, hIconSm;
+
+		hMenu = CreateMenu();
+
+		hSubMenu = CreatePopupMenu();
+		AppendMenu(hSubMenu, MF_STRING, ID_FILE_EXIT, "E&xit");
+		AppendMenu(hMenu, MF_STRING | MF_POPUP, (UINT)hSubMenu, "&File");
+
+		hSubMenu = CreatePopupMenu();
+		AppendMenu(hSubMenu, MF_STRING, ID_STUFF_GO, "&Go");
+		AppendMenu(hSubMenu, MF_STRING, ID_STUFF_GOSOMEWHEREELSE, "&GoSmw");
+		AppendMenu(hMenu, MF_STRING | MF_POPUP, (UINT)hSubMenu, "&Stuff");
+
+		SetMenu(hwnd, hMenu);
+
+
+		hIcon = reinterpret_cast<HICON>(LoadImage(NULL, "Icon1.ico", IMAGE_ICON, 32, 32, LR_LOADFROMFILE));
+		if (hIcon)
+			SendMessage(hwnd, WM_SETICON, ICON_BIG, (LPARAM)hIcon);
+		else
+			MessageBox(hwnd, "Could not load large icon!", "Error", MB_OK | MB_ICONERROR);
+
+
+		hIconSm = reinterpret_cast<HICON>(LoadImage(NULL, "Icon2.ico", IMAGE_ICON, 16, 16, LR_LOADFROMFILE));
+		if (hIconSm)
+			SendMessage(hwnd, WM_SETICON, ICON_SMALL, (LPARAM)hIconSm);
+		else
+			MessageBox(hwnd, "Could not load small icon!", "Error", MB_OK | MB_ICONERROR);
+
+	}
+	break;
+	case WM_COMMAND:
+		switch (LOWORD(wParam))
+		{
+		case ID_FILE_EXIT:
+			PostMessage(hwnd, WM_CLOSE, 0, 0);
+			break;
+		case ID_STUFF_GO:
+			MessageBox(hwnd, "You clicked Go!", "Woo!", MB_OK);
+			break;
+		}
+		break;
 	case WM_LBUTTONDOWN:
 	{
 		char FileNameC[MAX_PATH];
