@@ -99,33 +99,33 @@ LRESULT CALLBACK App::WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 	case WM_CREATE:
 	{
-		HMENU hMenu, hSubMenu;
-		HICON hIcon, hIconSm;
+		HMENU menuHandler, subMenuHandler;
+		HICON iconHandler, iconSmallHandler;
 
-		hMenu = CreateMenu();
+		menuHandler = CreateMenu();
 
-		hSubMenu = CreatePopupMenu();
-		AppendMenu(hSubMenu, MF_STRING, ID_FILE_EXIT, "E&xit");
-		AppendMenu(hMenu, MF_STRING | MF_POPUP, (UINT)hSubMenu, "&File");
+		subMenuHandler = CreatePopupMenu();
+		AppendMenu(subMenuHandler, MF_STRING, ID_FILE_EXIT, "E&xit");
+		AppendMenu(menuHandler, MF_STRING | MF_POPUP, (UINT)subMenuHandler, "&File");
 
-		hSubMenu = CreatePopupMenu();
-		AppendMenu(hSubMenu, MF_STRING, ID_STUFF_GO, "&Go");
-		AppendMenu(hSubMenu, MF_STRING, ID_STUFF_GOSOMEWHEREELSE, "&GoSmw");
-		AppendMenu(hMenu, MF_STRING | MF_POPUP, (UINT)hSubMenu, "&Stuff");
+		subMenuHandler = CreatePopupMenu();
+		AppendMenu(subMenuHandler, MF_STRING, ID_STUFF_GO, "&Go");
+		AppendMenu(subMenuHandler, MF_STRING, ID_STUFF_GOSOMEWHEREELSE, "&GoSmw");
+		AppendMenu(menuHandler, MF_STRING | MF_POPUP, (UINT)subMenuHandler, "&Stuff");
 
-		SetMenu(hwnd, hMenu);
+		SetMenu(hwnd, menuHandler);
 
 
-		hIcon = reinterpret_cast<HICON>(LoadImage(NULL, "Icon1.ico", IMAGE_ICON, 32, 32, LR_LOADFROMFILE));
-		if (hIcon)
-			SendMessage(hwnd, WM_SETICON, ICON_BIG, (LPARAM)hIcon);
+		iconHandler = reinterpret_cast<HICON>(LoadImage(NULL, "Icon1.ico", IMAGE_ICON, 32, 32, LR_LOADFROMFILE));
+		if (iconHandler)
+			SendMessage(hwnd, WM_SETICON, ICON_BIG, (LPARAM)iconHandler);
 		else
 			MessageBox(hwnd, "Could not load large icon!", "Error", MB_OK | MB_ICONERROR);
 
 
-		hIconSm = reinterpret_cast<HICON>(LoadImage(NULL, "Icon2.ico", IMAGE_ICON, 16, 16, LR_LOADFROMFILE));
-		if (hIconSm)
-			SendMessage(hwnd, WM_SETICON, ICON_SMALL, (LPARAM)hIconSm);
+		iconSmallHandler = reinterpret_cast<HICON>(LoadImage(NULL, "Icon2.ico", IMAGE_ICON, 16, 16, LR_LOADFROMFILE));
+		if (iconSmallHandler)
+			SendMessage(hwnd, WM_SETICON, ICON_SMALL, (LPARAM)iconSmallHandler);
 		else
 			MessageBox(hwnd, "Could not load small icon!", "Error", MB_OK | MB_ICONERROR);
 
