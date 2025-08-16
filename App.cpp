@@ -115,20 +115,17 @@ LRESULT CALLBACK App::WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 		SetMenu(hwnd, menuHandler);
 
-
 		iconHandler = reinterpret_cast<HICON>(LoadImage(NULL, "Icon1.ico", IMAGE_ICON, 32, 32, LR_LOADFROMFILE));
 		if (iconHandler)
 			SendMessage(hwnd, WM_SETICON, ICON_BIG, (LPARAM)iconHandler);
 		else
 			MessageBox(hwnd, "Could not load large icon!", "Error", MB_OK | MB_ICONERROR);
 
-
 		iconSmallHandler = reinterpret_cast<HICON>(LoadImage(NULL, "Icon2.ico", IMAGE_ICON, 16, 16, LR_LOADFROMFILE));
 		if (iconSmallHandler)
 			SendMessage(hwnd, WM_SETICON, ICON_SMALL, (LPARAM)iconSmallHandler);
 		else
 			MessageBox(hwnd, "Could not load small icon!", "Error", MB_OK | MB_ICONERROR);
-
 	}
 	break;
 	case WM_COMMAND:
@@ -140,8 +137,27 @@ LRESULT CALLBACK App::WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		case ID_STUFF_GO:
 			MessageBox(hwnd, "You clicked Go!", "Woo!", MB_OK);
 			break;
+		case ID_STUFF_GOSOMEWHEREELSE:
+		{
+			int ret = DialogBox(GetModuleHandle(NULL),
+				MAKEINTRESOURCE(IDD_ABOUT), hwnd, AboutDlgProc);
+			if (ret == IDOK) {
+				MessageBox(hwnd, "You clicked ok 2!", "Woo!", MB_OK);
+				MessageBox(hwnd, "Dialog exited with IDOK.", "Notice",
+					MB_OK | MB_ICONINFORMATION);
+			}
+			else if (ret == IDCANCEL) {
+				MessageBox(hwnd, "Dialog exited with IDCANCEL.", "Notice",
+					MB_OK | MB_ICONINFORMATION);
+			}
+			else if (ret == -1) {
+				MessageBox(hwnd, "Dialog failed!", "Error",
+					MB_OK | MB_ICONINFORMATION);
+			}
 		}
 		break;
+		}
+	break;
 	case WM_LBUTTONDOWN:
 	{
 		char FileNameC[MAX_PATH];
@@ -164,4 +180,30 @@ LRESULT CALLBACK App::WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		return  DefWindowProc(hwnd, msg, wParam, lParam);
 	}
 	return 0;
+}
+
+BOOL CALLBACK App::AboutDlgProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam)
+{
+	switch (Message)
+	{
+	case WM_INITDIALOG:
+
+		return TRUE;
+	case WM_COMMAND:
+		switch (LOWORD(wParam))
+		{
+		case IDOK:
+			MessageBox(hwnd, "You clicked ok 1!", "Woo!", MB_OK);
+			EndDialog(hwnd, IDOK);
+			
+			break;
+		case IDCANCEL:
+			EndDialog(hwnd, IDCANCEL);
+			break;
+		}
+		break;
+	default:
+		return FALSE;
+	}
+	return TRUE;
 }
