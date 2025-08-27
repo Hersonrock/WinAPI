@@ -29,6 +29,9 @@
     <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="resource1.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="WinAPI_Project.rc">
@@ -40,6 +43,9 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="..\..\..\Pictures\Resources_test\Icon3.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\..\..\Pictures\Resources_test\Icon1.ico">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
