@@ -1,5 +1,7 @@
 #include "App.h"
 
+HWND App::toolbar1Handle_ = nullptr;
+
 App::App(HINSTANCE hInstance, int nCmdShow)
 	: windowHandle_(nullptr),
 	className_("myWindowClass"),
@@ -113,6 +115,7 @@ LRESULT CALLBACK App::WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			throw std::system_error(static_cast<int>(ec), std::system_category());
 
 		}
+		ShowWindow(toolbar1Handle_, SW_SHOW);
 
 		/// TOP BAR MENUS
 		menuHandler = CreateMenu();
@@ -188,6 +191,7 @@ LRESULT CALLBACK App::WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	case WM_DESTROY:
 	{
 		DestroyWindow(toolbar1Handle_);
+		toolbar1Handle_ = nullptr;
 		PostQuitMessage(0);
 		break;
 	}
@@ -216,6 +220,16 @@ BOOL CALLBACK App::AboutDlgProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM l
 			break;
 		}
 		break;
+	case WM_CLOSE:
+	{
+		DestroyWindow(toolbar1Handle_);
+		break;
+	}
+	case WM_DESTROY:
+	{
+		PostQuitMessage(0);
+		break;
+	}
 	default:
 		return FALSE;
 	}
@@ -230,10 +244,10 @@ BOOL CALLBACK App::ToolDlgProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lP
 		switch (LOWORD(wParam))
 		{
 		case IDCLICK1:
-			MessageBox(hwnd, "Hi!", "Wrong option", MB_OK | MB_ICONEXCLAMATION);
+			MessageBox(hwnd, "Wrong option","Hi!" , MB_OK | MB_ICONEXCLAMATION);
 			break;
 		case IDCLICK2:
-			MessageBox(hwnd, "Hi!", "You should have pressed the other one", MB_OK | MB_ICONEXCLAMATION);
+			MessageBox(hwnd, "You should have pressed the other one" , "Hi!" , MB_OK | MB_ICONEXCLAMATION);
 			break;
 		}
 		break;

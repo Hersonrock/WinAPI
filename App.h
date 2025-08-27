@@ -13,7 +13,7 @@ public:
 	App(HINSTANCE hInstance, int nCmdShow);
 	~App();
 	HWND windowHandle_;
-	inline static HWND toolbar1Handle_;
+	static HWND toolbar1Handle_;
 
 	static LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 	static BOOL CALLBACK AboutDlgProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam);
