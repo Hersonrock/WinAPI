@@ -126,8 +126,8 @@ LRESULT CALLBACK App::WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			SendMessage(hwnd, WM_SETICON, ICON_SMALL, (LPARAM)iconSmallHandler);
 		else
 			MessageBox(hwnd, "Could not load small icon!", "Error", MB_OK | MB_ICONERROR);
+		break;
 	}
-	break;
 	case WM_COMMAND:
 		switch (LOWORD(wParam))
 		{
@@ -142,7 +142,6 @@ LRESULT CALLBACK App::WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			int ret = DialogBox(GetModuleHandle(NULL),
 				MAKEINTRESOURCE(IDD_ABOUT), hwnd, AboutDlgProc);
 			if (ret == IDOK) {
-				MessageBox(hwnd, "You clicked ok 2!", "Woo!", MB_OK);
 				MessageBox(hwnd, "Dialog exited with IDOK.", "Notice",
 					MB_OK | MB_ICONINFORMATION);
 			}
@@ -193,7 +192,6 @@ BOOL CALLBACK App::AboutDlgProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM l
 		switch (LOWORD(wParam))
 		{
 		case IDOK:
-			MessageBox(hwnd, "You clicked ok 1!", "Woo!", MB_OK);
 			EndDialog(hwnd, IDOK);
 			
 			break;
