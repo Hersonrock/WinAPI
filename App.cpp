@@ -95,13 +95,26 @@ int App::initWindow() {
 }
 
 LRESULT CALLBACK App::WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
+	
 	switch (msg) {
 
 	case WM_CREATE:
 	{
+
 		HMENU menuHandler, subMenuHandler;
 		HICON iconHandler, iconSmallHandler;
+		
+		
+		///STARTING MODELESS DIALOG
 
+		toolbar1Handle_ = CreateDialog(GetModuleHandle(NULL), MAKEINTRESOURCE(IDD_MLDIALOG1), hwnd, ToolDlgProc);
+		if (!toolbar1Handle_) {
+			DWORD ec = GetLastError();
+			throw std::system_error(static_cast<int>(ec), std::system_category());
+
+		}
+
+		/// TOP BAR MENUS
 		menuHandler = CreateMenu();
 
 		subMenuHandler = CreatePopupMenu();
@@ -115,7 +128,10 @@ LRESULT CALLBACK App::WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 		SetMenu(hwnd, menuHandler);
 
+
+		/// ICONS
 		iconHandler = reinterpret_cast<HICON>(LoadImage(NULL, "Icon1.ico", IMAGE_ICON, 32, 32, LR_LOADFROMFILE));
+
 		if (iconHandler)
 			SendMessage(hwnd, WM_SETICON, ICON_BIG, (LPARAM)iconHandler);
 		else
@@ -139,8 +155,7 @@ LRESULT CALLBACK App::WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			break;
 		case ID_STUFF_GOSOMEWHEREELSE:
 		{
-			int ret = DialogBox(GetModuleHandle(NULL),
-				MAKEINTRESOURCE(IDD_ABOUT), hwnd, AboutDlgProc);
+			int ret = DialogBox(GetModuleHandle(NULL), MAKEINTRESOURCE(IDD_ABOUT), hwnd, AboutDlgProc);
 			if (ret == IDOK) {
 				MessageBox(hwnd, "Dialog exited with IDOK.", "Notice",
 					MB_OK | MB_ICONINFORMATION);
@@ -172,6 +187,7 @@ LRESULT CALLBACK App::WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	}
 	case WM_DESTROY:
 	{
+		DestroyWindow(toolbar1Handle_);
 		PostQuitMessage(0);
 		break;
 	}
@@ -197,6 +213,27 @@ BOOL CALLBACK App::AboutDlgProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM l
 			break;
 		case IDCANCEL:
 			EndDialog(hwnd, IDCANCEL);
+			break;
+		}
+		break;
+	default:
+		return FALSE;
+	}
+	return TRUE;
+}
+
+
+BOOL CALLBACK App::ToolDlgProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam) {
+	switch (Message)
+	{
+	case WM_COMMAND:
+		switch (LOWORD(wParam))
+		{
+		case IDCLICK1:
+			MessageBox(hwnd, "Hi!", "Wrong option", MB_OK | MB_ICONEXCLAMATION);
+			break;
+		case IDCLICK2:
+			MessageBox(hwnd, "Hi!", "You should have pressed the other one", MB_OK | MB_ICONEXCLAMATION);
 			break;
 		}
 		break;

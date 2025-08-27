@@ -8,7 +8,10 @@
 #define IDR_MYMENU                      101
 #define IDI_ICON1                       102
 #define IDI_ICON2                       103
-#define IDD_ABOUT                       104
+#define IDD_ABOUT                       104  
+#define IDD_MLDIALOG1                   105
+#define IDCLICK1						1000
+#define IDCLICK2                        1001
 #define ID_FILE_EXIT                    40001
 #define ID_STUFF_GO                     40002
 #define ID_STUFF_GOSOMEWHEREELSE        40003
