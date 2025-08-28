@@ -220,16 +220,6 @@ BOOL CALLBACK App::AboutDlgProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM l
 			break;
 		}
 		break;
-	case WM_CLOSE:
-	{
-		DestroyWindow(toolbar1Handle_);
-		break;
-	}
-	case WM_DESTROY:
-	{
-		PostQuitMessage(0);
-		break;
-	}
 	default:
 		return FALSE;
 	}
@@ -251,6 +241,11 @@ BOOL CALLBACK App::ToolDlgProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lP
 			break;
 		}
 		break;
+	case WM_CLOSE:
+	{
+		DestroyWindow(toolbar1Handle_);
+		break;
+	}
 	default:
 		return FALSE;
 	}
